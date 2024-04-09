@@ -10,7 +10,8 @@ public class Evento {
 
 	// COSTRUTTORE
 
-	public Evento(String titolo, LocalDate data, int numeroPostiTotale) {
+	public Evento(String titolo, LocalDate data, int numeroPostiTotale, int numeroPostiPrenotati)
+			throws IllegalArgumentException {
 		if (data.isBefore(LocalDate.now())) {
 			throw new IllegalArgumentException("La data non può essere nel passato");
 		}
@@ -26,7 +27,7 @@ public class Evento {
 		this.titolo = titolo;
 		this.data = data;
 		this.numeroPostiTotale = numeroPostiTotale;
-		numeroPostiPrenotati = 0;
+		this.numeroPostiPrenotati = 0;
 	}
 
 	// GETTER & SETTER
@@ -43,7 +44,7 @@ public class Evento {
 		return data;
 	}
 
-	public void setData(LocalDate data) {
+	public void setData(LocalDate data) throws IllegalArgumentException {
 		if (data.isBefore(LocalDate.now())) {
 			throw new IllegalArgumentException("La data non può essere nel passato");
 		}
@@ -60,7 +61,7 @@ public class Evento {
 
 	// TO STRING E ALTRI METODI
 
-	public void prenota(int numeroPosti) {
+	public void prenota(int numeroPosti) throws IllegalStateException {
 		if (data.isBefore(LocalDate.now())) {
 			throw new IllegalStateException("Impossibile prenotare per un evento passato");
 		}
@@ -70,7 +71,7 @@ public class Evento {
 		numeroPostiPrenotati += numeroPosti;
 	}
 
-	public void disdici(int numeroPosti) {
+	public void disdici(int numeroPosti) throws IllegalStateException {
 		if (data.isBefore(LocalDate.now())) {
 			throw new IllegalStateException("Impossibile disdire per un evento passato");
 		}
