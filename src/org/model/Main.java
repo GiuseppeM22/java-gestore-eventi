@@ -1,7 +1,9 @@
 package org.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -29,9 +31,9 @@ public class Main {
 					System.out.print("Inserisci il titolo dell'evento: ");
 					titolo = scan.nextLine();
 
-					System.out.print("Inserisci la data dell'evento (formato yyyy-MM-dd): ");
-					String inputData = scan.nextLine();
-					data = LocalDate.parse(inputData);
+					System.out.print("Inserisci la data dell'evento (formato dd-MM-yyyy): ");
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+					data = LocalDate.parse(scan.nextLine(), formatter);
 					if (data.isBefore(LocalDate.now())) {
 						throw new IllegalArgumentException("La data non può essere nel passato");
 					}
@@ -49,7 +51,7 @@ public class Main {
 
 					flag = true;
 				} catch (DateTimeParseException e) {
-					System.out.println("Errore: Il formato della data non è corretto. Inserire nel formato yyyy-MM-dd");
+					System.out.println("Errore: Il formato della data non è corretto. Inserire nel formato dd-MM-yyyy");
 				} catch (IllegalArgumentException | NullPointerException e) {
 					System.out.println("Errore: " + e.getMessage());
 				}
@@ -160,8 +162,23 @@ public class Main {
 
 		System.out.println();
 
-		String eventiInPrograma = eventiInProgramma.listaEventiOrdinatiPerData();
-		System.out.println(eventiInPrograma);
+		String eventiInProgrammaString = eventiInProgramma.listaEventiOrdinatiPerData();
+		System.out.println(eventiInProgrammaString);
+
+		System.out.println("Eventi in data specifica: ");
+
+		List<Evento> eventiInData = eventiInProgramma.eventiInData(LocalDate.of(2024, 12, 12));
+		System.out.println(eventiInData);
+		System.out.println();
+
+		System.out.println("Lunghezza eventi: " + eventiInProgramma.eventiPresenti());
+		System.out.println();
+
+		System.out.println("Svuoto la lista di eventi: ");
+		eventiInProgramma.svuotaLista();
+		System.out.println();
+
+		System.out.println("Lunghezza eventi dopo svuotato: " + eventiInProgramma.eventiPresenti());
 
 		scan.close();
 	}

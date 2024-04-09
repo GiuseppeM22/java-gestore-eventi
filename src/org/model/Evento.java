@@ -1,6 +1,7 @@
 package org.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Evento {
 	private String titolo;
@@ -83,7 +84,7 @@ public class Evento {
 
 	@Override
 	public String toString() {
-		return data + " - " + titolo;
+		return data.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + " - " + titolo;
 	}
 
 }
