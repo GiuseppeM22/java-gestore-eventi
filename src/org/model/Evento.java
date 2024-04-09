@@ -58,12 +58,31 @@ public class Evento {
 		return numeroPostiPrenotati;
 	}
 
-	// TO STRING
+	// TO STRING E ALTRI METODI
+
+	public void prenota(int numeroPosti) {
+		if (data.isBefore(LocalDate.now())) {
+			throw new IllegalStateException("Impossibile prenotare per un evento passato");
+		}
+		if (numeroPosti > (numeroPostiTotale - numeroPostiPrenotati)) {
+			throw new IllegalStateException("Non ci sono abbastanza posti disponibili");
+		}
+		numeroPostiPrenotati += numeroPosti;
+	}
+
+	public void disdici(int numeroPosti) {
+		if (data.isBefore(LocalDate.now())) {
+			throw new IllegalStateException("Impossibile disdire per un evento passato");
+		}
+		if (numeroPosti > numeroPostiPrenotati) {
+			throw new IllegalStateException("Non ci sono abbastanza prenotazioni da disdire");
+		}
+		numeroPostiPrenotati -= numeroPosti;
+	}
 
 	@Override
 	public String toString() {
-		return "Evento{" + "titolo='" + titolo + '\'' + ", data=" + data + ", numeroPostiTotale=" + numeroPostiTotale
-				+ ", numeroPostiPrenotati=" + numeroPostiPrenotati + '}';
+		return data + " - " + titolo;
 	}
 
 }
